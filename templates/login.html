@@ -6,6 +6,109 @@
   <link rel="stylesheet" href="login.css">
   <!-- Google Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
+  <style>
+    /* Global Styles */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Container Styles */
+  .container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    width: 360px;
+    text-align: center;
+  }
+  
+  .container h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Message Styles */
+  #message {
+    margin-bottom: 15px;
+    padding: 10px;
+    display: none;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  #message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  #message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  /* Input Styles */
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Button Styles */
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #218838;
+  }
+  
+  .google-btn {
+    background: #4285F4;
+  }
+  
+  .google-btn:hover {
+    background: #357ae8;
+  }
+  
+  /* Toggle Link Styles */
+  .toggle {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .toggle a {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .toggle a:hover {
+    text-decoration: underline;
+  }
+  </style>
   <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <!-- Firebase Authentication -->
