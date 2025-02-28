@@ -116,7 +116,7 @@
     </div>
   </div>
   <script>
-    // Your web app's Firebase configuration
+    // Your Firebase configuration – update these values with your project's credentials
     var firebaseConfig = {
       apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
       authDomain: "sample-login-33567.firebaseapp.com",
@@ -197,15 +197,15 @@
       }
     });
     
-    // Google Sign-In functionality
+    // Google Sign-In functionality using Firebase
     var googleBtn = document.getElementById('google-btn');
     googleBtn.addEventListener('click', function() {
       var provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
-        .then(function() {
+        .then(function(result) {
           displayMessage("Google sign-in successful!", "success");
           setTimeout(function() {
-            window.location.href = "/index";
+            window.location.href = "https://cloned-final-project.vercel.app/";
           }, 1000);
         })
         .catch(function(error) {
