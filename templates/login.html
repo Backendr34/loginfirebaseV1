@@ -50,6 +50,7 @@
       color: #155724;
     }
     /* Input Styles */
+    input[type="text"],
     input[type="email"],
     input[type="password"] {
       width: 100%;
@@ -99,6 +100,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Firebase Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <div class="container">
@@ -107,6 +110,9 @@
     <div id="message"></div>
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
+    <!-- Additional fields for registration -->
+    <input type="text" id="username" placeholder="Name" style="display:none;">
+    <input type="text" id="phone" placeholder="Phone Number" style="display:none;">
     <button id="submit-btn">Login</button>
     <button class="google-btn" id="google-btn">Sign in with Google</button>
     <div class="toggle">
@@ -116,10 +122,11 @@
     </div>
   </div>
   <script>
-    // Your Firebase configuration – update these values with your project's credentials
+    // Your Firebase configuration – including databaseURL
     var firebaseConfig = {
       apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
       authDomain: "sample-login-33567.firebaseapp.com",
+      databaseURL: "https://sample-login-33567-default-rtdb.firebaseio.com",
       projectId: "sample-login-33567",
       storageBucket: "sample-login-33567.firebasestorage.app",
       messagingSenderId: "567157020233",
@@ -129,6 +136,7 @@
     // Initialize Firebase using compat libraries
     firebase.initializeApp(firebaseConfig);
     var auth = firebase.auth();
+    var database = firebase.database();
     
     var formTitle = document.getElementById('form-title');
     var submitBtn = document.getElementById('submit-btn');
@@ -155,6 +163,11 @@
       toggleText.innerHTML = isLogin 
         ? "Don't have an account? <a id='toggle-link' href='javascript:void(0);'>Sign up</a>"
         : "Already have an account? <a id='toggle-link' href='javascript:void(0);'>Login</a>";
+      
+      // Show or hide additional fields for sign-up
+      document.getElementById('username').style.display = isLogin ? "none" : "block";
+      document.getElementById('phone').style.display = isLogin ? "none" : "block";
+      
       // Reattach the event listener to the new toggle link
       document.getElementById('toggle-link').addEventListener('click', toggleMode);
     }
@@ -173,6 +186,7 @@
       }
       
       if (isLogin) {
+        // Log in user
         auth.signInWithEmailAndPassword(email, password)
           .then(function() {
             displayMessage("Login successful!", "success");
@@ -184,7 +198,26 @@
             displayMessage(error.message, "error");
           });
       } else {
+        // For registration, also get additional details
+        var username = document.getElementById('username').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+        
+        if (!username || !phone) {
+          displayMessage("Please enter name and phone number.", "error");
+          return;
+        }
+        
+        // Create user with email and password
         auth.createUserWithEmailAndPassword(email, password)
+          .then(function(userCredential) {
+            var user = userCredential.user;
+            // Save additional user details in the Realtime Database under a "users" node
+            return database.ref('users/' + user.uid).set({
+              name: username,
+              phone: phone,
+              email: email
+            });
+          })
           .then(function() {
             displayMessage("Registration successful!", "success");
             setTimeout(function() {
